@@ -42,7 +42,7 @@
     }
 
     .heart-image {
-      width: clamp(200px, 60vw, 400px);
+      width: clamp(500px, 100vw, 100px);
       height: auto;
       position: relative;
     }
@@ -59,7 +59,7 @@
       left: 50%;
       transform: translate(-50%, -50%);
       color: white;
-      font-size: clamp(12px, 4vw, 24px);
+      font-size: clamp(20px, 8vw, 42px);
       line-height: 1.4;
       padding: 0 10px;
       max-width: 90%;
@@ -148,11 +148,11 @@
     let drops = [];
 
     function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      columns = Math.floor(canvas.width / columnWidth);
-      drops = Array(columns).fill(0);
-    }
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    columns = Math.ceil(canvas.width / columnWidth) + 1; // Asegura cubrir la derecha
+    drops = Array(columns).fill(0);
+}
 
     window.addEventListener("resize", resizeCanvas);
 
