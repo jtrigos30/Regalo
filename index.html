@@ -2,46 +2,49 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Para ti, mi amor ❤️</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 
-    body {
+    * {
       margin: 0;
-      height: 100vh;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
       background: black;
-      overflow: hidden;
       font-family: 'Pacifico', cursive;
       color: #ff00ff;
+      overflow: hidden;
     }
 
     canvas {
-      position: absolute;
+      position: fixed;
       top: 0;
       left: 0;
-      width: 100vw;
-      height: 100vh;
       z-index: 0;
     }
 
     .heartbeat-container {
-      position: relative;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       z-index: 1;
-      width: 90vw;
-      max-width: 400px;
-      height: auto;
-      aspect-ratio: 1 / 1;
       display: flex;
       justify-content: center;
       align-items: center;
-      margin: auto;
-      animation: heartbeat 2s infinite;
+      animation: heartbeat 5s infinite;
+      text-align: center;
     }
 
     .heart-image {
-      width: 100%;
-      height: auto;
+      width: 60vw;
+      max-width: 400px;
       position: relative;
     }
 
@@ -49,8 +52,6 @@
       width: 100%;
       height: auto;
       display: block;
-      user-select: none;
-      pointer-events: none;
     }
 
     .heart-text {
@@ -59,26 +60,24 @@
       left: 50%;
       transform: translate(-50%, -50%);
       color: white;
-      text-align: center;
       font-size: 4vw;
-      padding: 0 5vw;
-      text-shadow: 0 0 8px #ff69b4;
-      line-height: 1.2;
-      user-select: none;
+      padding: 0 10px;
+      text-shadow: 0 0 5px #ff69b4;
+      word-break: break-word;
     }
 
     @keyframes heartbeat {
       0%, 100% {
-        transform: scale(1);
+        transform: translate(-50%, -50%) scale(1);
       }
       25% {
-        transform: scale(1.05);
+        transform: translate(-50%, -50%) scale(1.05);
       }
       50% {
-        transform: scale(0.98);
+        transform: translate(-50%, -50%) scale(0.98);
       }
       75% {
-        transform: scale(1.02);
+        transform: translate(-50%, -50%) scale(1.02);
       }
     }
 
@@ -90,7 +89,7 @@
       transform: rotate(45deg);
       opacity: 1;
       animation: grow-fade 2s ease-out forwards;
-      z-index: 1;
+      z-index: 2;
     }
 
     .heart::before,
@@ -130,10 +129,9 @@
 
   <div class="heartbeat-container">
     <div class="heart-image">
-      <img src="corazon.png" alt="corazon" />
+      <img src="corazon.png" alt="corazón" />
       <div class="heart-text">
-        Feliz Mes #30 Amor<br />
-        Te Amo Mucho
+        Feliz Mes #30 Amor<br />Te Amo Mucho
       </div>
     </div>
   </div>
@@ -147,11 +145,15 @@
       canvas.height = window.innerHeight;
     }
 
-    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener("resize", () => {
+      resizeCanvas();
+      drops = new Array(Math.floor(canvas.width / 80)).fill(1);
+    });
+
     resizeCanvas();
 
-    const columns = Math.floor(canvas.width / 80);
-    const drops = new Array(columns).fill(1);
+    let columns = Math.floor(canvas.width / 80);
+    let drops = new Array(columns).fill(1);
 
     function drawMatrix() {
       ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
@@ -161,12 +163,12 @@
       ctx.font = "20px monospace";
 
       for (let i = 0; i < drops.length; i++) {
-        const text = "Te Amo";
-        ctx.fillText(text, i * 80, drops[i] * 20);
+        ctx.fillText("Te Amo", i * 80, drops[i] * 20);
 
         if (drops[i] * 20 > canvas.height && Math.random() > 0.975) {
           drops[i] = 0;
         }
+
         drops[i]++;
       }
     }
@@ -179,11 +181,9 @@
       heart.style.left = `${e.clientX - 10}px`;
       heart.style.top = `${e.clientY - 10}px`;
       document.body.appendChild(heart);
-
-      setTimeout(() => {
-        heart.remove();
-      }, 2000);
+      setTimeout(() => heart.remove(), 2000);
     }
   </script>
 </body>
 </html>
+
